@@ -57,7 +57,7 @@ module.exports = class ResolveEntryModulesPlugin {
 
 		return uniq( map( entry, ( path ) => {
 			// Cannot resolve paths with query parameters, so remove
-			path = path.replace( /\?.*/, '' );
+			path = path.import[0].replace( /\?.*/, '' );
 
 			return dirname( resolveFrom( context, path ) );
 		} ) );
@@ -73,7 +73,7 @@ module.exports = class ResolveEntryModulesPlugin {
 					// Find entry root which contains the requesting path
 					const resolvePath = find(
 						entryRoots,
-						containsPath.bind( null, request.path )
+						( entryRoot ) => containsPath( request.context.issuer, entryRoot )
 					);
 
 					if ( ! resolvePath ) {
